@@ -1,4 +1,6 @@
 ﻿
+using Xamarin.Forms.Internals;
+
 namespace Xamarin.Forms.Controls
 {
 	public class AccessibilityGallery : ContentPage
@@ -22,6 +24,12 @@ namespace Xamarin.Forms.Controls
 			string labeledByInstructions = "";
 			string imageInstructions = "";
 			string boxInstructions = "";
+			string toolbarInstructions = "";
+
+			string toolbarItemName = "Get some coffee";
+			string toolbarItem2Text = "Go";
+			string toolbarItemHint2 = "Somewhere else";
+
 
 			switch (Device.RuntimePlatform)
 			{
@@ -32,6 +40,7 @@ namespace Xamarin.Forms.Controls
 					labeledByInstructions = $"The following Entry should read aloud \"{EntryPlaceholder}.\", plus native instructions on how to use an Entry element. This text comes from the placeholder.";
 					imageInstructions = $"The following Image should read aloud \"{ImageName}. {ImageHint}\". You should be able to tap the image and hear an alert box.";
 					boxInstructions = $"The following Box should read aloud \"{BoxName}. {BoxHint}\". You should be able to tap the box and hear an alert box.";
+					toolbarInstructions = $"The Toolbar should have a coffee cup icon. Activating the coffee cup should read aloud \"{toolbarItemName}\". The Toolbar should also show the text \"{toolbarItem2Text}\". Activating this item should read aloud \"{toolbarItem2Text}. {toolbarItemHint2}\".";
 					break;
 				case Device.Android:
 					screenReader = "TalkBack";
@@ -40,6 +49,7 @@ namespace Xamarin.Forms.Controls
 					labeledByInstructions = $"The following Entry should read aloud \"EditBox {EntryPlaceholder} for {EntryHint}.\", plus native instructions on how to use an Entry element. This text comes from the Entry placeholder and text of the Label.";
 					imageInstructions = $"The following Image should read aloud \"{ImageName}. {ImageHint}\". You should be able to tap the image and hear an alert box.";
 					boxInstructions = $"The following Box should read aloud \"{BoxName}. {BoxHint}\". You should be able to tap the box and hear an alert box.";
+					toolbarInstructions = $"The Toolbar should have a coffee cup icon. Activating the coffee cup should read aloud \"{toolbarItemName}\". The Toolbar should also show the text \"{toolbarItem2Text}\". Activating this item should read aloud \"{toolbarItem2Text}\".";
 					break;
 				case Device.WinRT:
 				case Device.UWP:
@@ -50,13 +60,28 @@ namespace Xamarin.Forms.Controls
 					labeledByInstructions = $"The following Entry should read aloud \"{EntryHint}\", plus native instructions on how to use an Entry element. This text comes from the text of the label.";
 					imageInstructions = $"The following Image should read aloud \"{ImageName}. {ImageHint}\". Windows does not currently support TapGestures while the Narrator is active.";
 					boxInstructions = $"The following Box should read aloud \"{BoxName}. {BoxHint}\". Windows does not currently support TapGestures while the Narrator is active.";
+					toolbarInstructions = $"The Toolbar should have a coffee cup icon. Activating the coffee cup should read aloud \"{toolbarItemName}\". The Toolbar should also show the text \"{toolbarItem2Text}\". Activating this item should read aloud \"{toolbarItem2Text}. {toolbarItemHint2}\".";
 					break;
 				default:
 					screenReader = "the native screen reader";
 					break;
 			}
 
+
+			var toolbarItem = new ToolbarItem { Icon = "coffee.png" };
+			toolbarItem.SetAccessibilityName(toolbarItemName);
+			ToolbarItems.Add(toolbarItem);
+
+
+			var toolbarItem2 = new ToolbarItem { Text = toolbarItem2Text };
+			toolbarItem2.SetAccessibilityHint(toolbarItemHint2);
+			ToolbarItems.Add(toolbarItem2);
+
+
 			var instructions = new Label { Text = $"Please enable {screenReader}. {explore} Use {scrollFingers} to scroll the view. Tap an element once to hear the name and description and native instructions. Double tap anywhere on the screen to activate the selected element. Swipe left or right with one finger to switch to the previous or next element." };
+
+			var toolbarInstructionsLbl = new Label { Text = toolbarInstructions };
+
 
 			var instructions2 = new Label { Text = labeledByInstructions };
 			var entryLabel = new Label { Text = EntryHint, VerticalOptions = LayoutOptions.Center };
@@ -114,6 +139,7 @@ namespace Xamarin.Forms.Controls
 				Children =
 				{
 					instructions,
+					toolbarInstructionsLbl,
 					instructions2,
 					entryGroup,
 					instructions3,
@@ -128,46 +154,47 @@ namespace Xamarin.Forms.Controls
 			var scrollView = new ScrollView { Content = stack };
 			Content = scrollView;
 		}
+
 	}
 
 	public static class AccessibilityExtensions
 	{
-		public static void SetAccessibilityName(this VisualElement element, string name)
+		public static void SetAccessibilityName(this Element element, string name)
 		{
 			element.SetValue(Accessibility.NameProperty, name);
 		}
 
-		public static string GetAccessibilityName(this VisualElement element)
+		public static string GetAccessibilityName(this Element element)
 		{
 			return (string)element.GetValue(Accessibility.NameProperty);
 		}
 
-		public static void SetAccessibilityHint(this VisualElement element, string hint)
+		public static void SetAccessibilityHint(this Element element, string hint)
 		{
 			element.SetValue(Accessibility.HintProperty, hint);
 		}
 
-		public static string GetAccessibilityHint(this VisualElement element)
+		public static string GetAccessibilityHint(this Element element)
 		{
 			return (string)element.GetValue(Accessibility.HintProperty);
 		}
 
-		public static void SetIsInAccessibleTree(this VisualElement element, bool value)
+		public static void SetIsInAccessibleTree(this Element element, bool value)
 		{
 			element.SetValue(Accessibility.IsInAccessibleTreeProperty, value);
 		}
 
-		public static bool GetIsInAccessibleTree(this VisualElement element)
+		public static bool GetIsInAccessibleTree(this Element element)
 		{
 			return (bool)element.GetValue(Accessibility.IsInAccessibleTreeProperty);
 		}
 
-		public static void SetAccessibilityLabeledBy(this VisualElement element, Element value)
+		public static void SetAccessibilityLabeledBy(this Element element, Element value)
 		{
 			element.SetValue(Accessibility.LabeledByProperty, value);
 		}
 
-		public static Element GetAccessibilityLabeledBy(this VisualElement element)
+		public static Element GetAccessibilityLabeledBy(this Element element)
 		{
 			return (Element)element.GetValue(Accessibility.LabeledByProperty);
 		}
