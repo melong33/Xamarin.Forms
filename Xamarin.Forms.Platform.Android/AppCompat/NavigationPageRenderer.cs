@@ -737,6 +737,7 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 					IMenuItem menuItem = menu.Add(item.Text);
 					menuItem.SetEnabled(controller.IsEnabled);
 					menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(controller.Activate));
+					menuItem.SetTitleOrContentDescription(item);
 				}
 				else
 				{
@@ -751,6 +752,7 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 					menuItem.SetEnabled(controller.IsEnabled);
 					menuItem.SetShowAsAction(ShowAsAction.Always);
 					menuItem.SetOnMenuItemClickListener(new GenericMenuClickListener(controller.Activate));
+					menuItem.SetTitleOrContentDescription(item);
 				}
 			}
 		}
@@ -784,6 +786,7 @@ namespace Xamarin.Forms.Platform.Android.AppCompat
 					var icon = new DrawerArrowDrawable(activity.SupportActionBar.ThemedContext);
 					icon.Progress = 1;
 					bar.NavigationIcon = icon;
+					bar.SetNavigationContentDescription(Element);
 				}
 			}
 			else
