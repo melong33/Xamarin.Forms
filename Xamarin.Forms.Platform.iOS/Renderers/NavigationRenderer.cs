@@ -362,6 +362,8 @@ namespace Xamarin.Forms.Platform.iOS
 			{
 				// adding a custom event handler to UIBarButtonItem for navigating back seems to be ignored.
 				pack.NavigationItem.BackBarButtonItem = new UIBarButtonItem { Title = titleText, Style = UIBarButtonItemStyle.Plain };
+				pack.NavigationItem.BackBarButtonItem.SetAccessibilityLabel(page);
+				pack.NavigationItem.BackBarButtonItem.SetAccessibilityHint(page);
 			}
 
 			var pageRenderer = Platform.GetRenderer(page);
@@ -687,6 +689,9 @@ namespace Xamarin.Forms.Platform.iOS
 			{
 				containerController.NavigationItem.LeftBarButtonItem = new UIBarButtonItem(masterDetailPage.Master.Title, UIBarButtonItemStyle.Plain, handler);
 			}
+
+			containerController.NavigationItem.LeftBarButtonItem.SetAccessibilityHint(masterDetailPage);
+			containerController.NavigationItem.LeftBarButtonItem.SetAccessibilityLabel(masterDetailPage);
 		}
 
 		class SecondaryToolbar : UIToolbar
