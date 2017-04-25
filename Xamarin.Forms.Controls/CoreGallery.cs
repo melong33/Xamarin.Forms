@@ -73,6 +73,7 @@ namespace Xamarin.Forms.Controls
 			// Note: This sets the text read aloud for the Back button on every page.
 			// On Android, this also overwrites the AutomationId value (i.e., it sets ContentDescription).
 			this.SetAccessibilityName("Gallery");
+			this.SetAccessibilityHint("Tap to go back.");
 
 			BarBackgroundColor = Color.Maroon;
 			BarTextColor = Color.Yellow;
